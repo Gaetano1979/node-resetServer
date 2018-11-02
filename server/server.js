@@ -3,8 +3,8 @@ require('./config/config');
 const express = require('express');
 const app = express();
 
-//creamos el vinculo con la rutas de usuarios
-app.use(require('./routers/usuarios'));
+//creamos el vinculo con la rutas globlales
+app.use(require('./routers/index'));
 
 //creamos conection con mongoose
 const mongoose = require('mongoose');

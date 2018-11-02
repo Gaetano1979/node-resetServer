@@ -1,10 +1,15 @@
+//importamos express
 const express = require('express');
 //creamos la incriptacion
 const bcrypt = require('bcrypt');
+
 //usamos la libreria underscore
 const _ = require('underscore');
-
+//importamos el usuario
 const Usuario = require('../models/usuario.js');
+// importo el middlewares creado por el token
+const { verifiacr, verificarRole } = require('../middewares/autenticacion');
+//declaramos el app de express
 const app = express();
 
 //declaramos el parser 
@@ -18,7 +23,13 @@ app.use(bodyParser.json());
 
 
 
-app.get('/usuarios', (req, res) => {
+app.get('/usuarios', verifiacr, (req, res) => {
+
+    // return res.json({
+    //     usuarioToken: req.usuario,
+    //     id: req.usuario._id,
+    //     name: req.usuario.nombre
+    // });
     // let cuerpopeticion=req.body;
     // res.json('Listas Usuarios');
     let desde = req.query.desde || 0;
@@ -47,7 +58,7 @@ app.get('/usuarios', (req, res) => {
         });
 });
 
-app.post('/usuarios', (req, res) => {
+app.post('/usuarios', [verifiacr, verificarRole], (req, res) => {
     let peticion = req.body;
 
     let usuario = new Usuario({
@@ -85,11 +96,11 @@ app.post('/usuarios', (req, res) => {
     // }
 });
 
-app.put('/usuarios', (req, res) => {
+app.put('/usuarios', [verifiacr, verificarRole], (req, res) => {
     res.json('Pagina Put Usuarios');
 });
 
-app.put('/usuarios/:id', (req, res) => {
+app.put('/usuarios/:id', [verifiacr, verificarRole], (req, res) => {
     let idUsuario = req.params.id;
     // modificamos esto variable con la funcion pick de UNDESCORE
     // let peticion = req.body;
@@ -111,7 +122,7 @@ app.put('/usuarios/:id', (req, res) => {
     });
 });
 
-app.delete('/usuarios/:id', (req, res) => {
+app.delete('/usuarios/:id', [verifiacr, verificarRole], (req, res) => {
     //res.json('Pagina Delete Usuarios');
     let idUsuario = req.params.id;
     let cambiaEstado = {
