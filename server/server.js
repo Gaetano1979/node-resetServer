@@ -2,6 +2,7 @@ require('./config/config');
 
 const express = require('express');
 const app = express();
+const path = require('path');
 
 //creamos el vinculo con la rutas globlales
 app.use(require('./routers/index'));
@@ -20,6 +21,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
 app.use(bodyParser.json());
+//habilitar la carpeta public 
+app.use(express.static(path.resolve(__dirname, '../public')));
+console.log(path.resolve(__dirname, '../public'));
+
 
 app.get('/', function(req, res) {
     //res.send('Buenos dias a todos');
