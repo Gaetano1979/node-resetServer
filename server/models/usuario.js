@@ -6,7 +6,7 @@ let Schema = mongoose.Schema;
 let roleValidos = {
     values: ['ADMIN_ROLE', 'USER_ROLE'],
     message: '{VALUE} no es un rol valido'
-}
+};
 
 
 let usuarioSchema = new Schema({
@@ -49,7 +49,7 @@ usuarioSchema.methods.toJSON = function() {
     delete userObjet.pasword;
     //en este modo el retorno del json será sin pasword
     return userObjet;
-}
+};
 
 usuarioSchema.plugin(uniqueValidator, { message: '{PATH} debe ser unico' });
 
